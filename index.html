@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Informasi Pondok</title>
+
+<style>
+body{
+    margin:0;
+    background: linear-gradient(#0b3d2e, #145a32);
+    font-family: Arial, sans-serif;
+    color:white;
+}
+
+.container{
+    padding:30px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:bold;
+}
+
+.clock{
+    font-size:80px;
+    font-weight:bold;
+}
+
+.date{
+    font-size:28px;
+}
+
+.section-title{
+    font-size:36px;
+    margin-top:30px;
+    border-bottom:3px solid gold;
+    width:fit-content;
+}
+
+.sholat{
+    display:flex;
+    gap:40px;
+    margin-top:20px;
+    font-size:28px;
+}
+
+.card{
+    background:rgba(0,0,0,0.4);
+    padding:20px 30px;
+    border-radius:15px;
+    text-align:center;
+    min-width:140px;
+}
+
+.announcement{
+    margin-top:30px;
+    font-size:34px;
+    background:rgba(0,0,0,0.4);
+    padding:20px;
+    border-radius:15px;
+}
+
+.running-text{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:black;
+    color:gold;
+    font-size:28px;
+    padding:10px;
+}
+
+marquee{
+    width:100%;
+}
+</style>
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-area img{
+    width:80px;
+    height:auto;
+}
+
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+    <div>
+        <div class="logo-area">
+    <img src="logo.png">
+    <span>MADRASAH ALIYAH DARUL HUFFAZH</span>
+</div>
+        <div class="date" id="date"></div>
+    </div>
+
+    <div class="clock" id="clock"></div>
+</div>
+
+<div class="section-title">WAKTU SHOLAT</div>
+
+<div class="sholat">
+    <div class="card">Subuh<br><span id="subuh">04:30</span></div>
+    <div class="card">Dzuhur<br><span id="dzuhur">12:00</span></div>
+    <div class="card">Ashar<br><span id="ashar">15:15</span></div>
+    <div class="card">Maghrib<br><span id="maghrib">18:00</span></div>
+    <div class="card">Isya<br><span id="isya">19:15</span></div>
+</div>
+
+<div class="section-title">PENGUMUMAN</div>
+
+<div class="announcement" id="announce">
+- Upacara hari Senin pukul 07.00 WIB <br>
+- Kebersihan kelas menjadi tanggung jawab bersama <br>
+- Setoran hafalan setiap ba'da Subuh
+</div>
+
+</div>
+
+<div class="running-text">
+<marquee>
+"Menuntut ilmu adalah jalan menuju surga" | Madrasah Aliyah Darul Huffazh
+</marquee>
+</div>
+
+<script>
+function updateClock(){
+    let now = new Date();
+    let h = String(now.getHours()).padStart(2,'0');
+    let m = String(now.getMinutes()).padStart(2,'0');
+    let s = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById("clock").innerHTML = h+":"+m+":"+s;
+
+    let days = ["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    let months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+    let day = days[now.getDay()];
+    let date = now.getDate();
+    let month = months[now.getMonth()];
+    let year = now.getFullYear();
+
+    document.getElementById("date").innerHTML =
+    day + ", " + date + " " + month + " " + year;
+}
+
+setInterval(updateClock,1000);
+updateClock();
+</script>
+
+</body>
+</html>
