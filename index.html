@@ -94,36 +94,20 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
-// ===================== LOAD JADWAL SHOLAT OTOMATIS =====================
-async function loadSholatByLocation(){
-    if (!navigator.geolocation){
-        alert("Geolocation tidak didukung browser ini");
-        return;
-    }
+// ===================== LOAD JADWAL SHOLAT MANUAL =====================
+const kota = "bandar lampung"; // ubah sesuai kota
 
-    navigator.geolocation.getCurrentPosition(async function(position){
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
+async function loadSholat(){
+    try{
+        // Cari ID kota dari API MyQuran
+        let res = await fetch("https://api.myquran.com/v2/sholat/jadwal/kota/cari/"+kota);
+        let data = await res.json();
+        let id = data.data[0].id;
 
-        // Cari kota terdekat dari koordinat
-        let cityRes = await fetch(`https://api.myquran.com/v2/sholat/kota`);
-        let cityData = await cityRes.json();
+        let today = new Date();
+        let tgl = today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
 
-        // Cari kota terdekat berdasarkan koordinat
-        let minDist = Infinity;
-        let nearestId = null;
-        for (let c of cityData.data){
-            let d = Math.sqrt(Math.pow(c.latitude - lat,2) + Math.pow(c.longitude - lng,2));
-            if (d < minDist){
-                minDist = d;
-                nearestId = c.id;
-            }
-        }
-
-        const today = new Date();
-        const tgl = today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
-
-        let jadwalRes = await fetch(`https://api.myquran.com/v2/sholat/jadwal/${nearestId}/${tgl}`);
+        let jadwalRes = await fetch("https://api.myquran.com/v2/sholat/jadwal/"+id+"/"+tgl);
         let jadwalData = await jadwalRes.json();
         let j = jadwalData.data.jadwal;
 
@@ -132,10 +116,10 @@ async function loadSholatByLocation(){
         document.getElementById("ashar").textContent = j.ashar;
         document.getElementById("maghrib").textContent = j.maghrib;
         document.getElementById("isya").textContent = j.isya;
-
-    }, function(err){
-        alert("Tidak dapat mendeteksi lokasi: "+err.message);
-    });
+    }
+    catch(e){
+        console.log("Gagal load jadwal sholat");
+    }
 }
 
 // ===================== COUNTDOWN =====================
@@ -177,9 +161,7 @@ function updateCountdown() {
 }
 
 setInterval(updateCountdown,1000);
-setInterval(loadSholatByLocation, 1000*60*10); // update jadwal tiap 10 menit
-loadSholatByLocation();
-updateCountdown();
+loadSholat();
 </script>
 
 </body>
