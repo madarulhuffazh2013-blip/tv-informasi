@@ -12,6 +12,7 @@ body{
     color:white;
 }
 
+/* CONTAINER */
 .container{
     padding:20px;
 }
@@ -31,7 +32,7 @@ body{
 }
 
 .logo-area img{
-    width:60px;   /* DIPERKECIL */
+    width:60px;
     height:auto;
 }
 
@@ -40,9 +41,9 @@ body{
     font-weight:bold;
 }
 
-/* JAM */
+/* JAM & TANGGAL */
 .clock{
-    font-size:64px;  /* SEBELUM 80 */
+    font-size:64px;
     font-weight:bold;
 }
 
@@ -50,7 +51,7 @@ body{
     font-size:22px;
 }
 
-/* JUDUL SECTION */
+/* SECTION TITLE */
 .section-title{
     font-size:30px;
     margin-top:20px;
@@ -98,6 +99,15 @@ body{
 marquee{
     width:100%;
 }
+
+/* COUNTDOWN */
+#countdown{
+    font-size:50px;
+    margin-top:10px;
+    font-weight:bold;
+    color:gold;
+    text-align:center;
+}
 </style>
 
 </head>
@@ -127,25 +137,27 @@ marquee{
     <div class="card">Isya<br><span id="isya">19:15</span></div>
 </div>
 
+<div class="section-title">COUNTDOWN SHOLAT BERIKUTNYA</div>
+<div class="clock" id="countdown">--:--:--</div>
+
 <div class="section-title">PENGUMUMAN</div>
 
 <div class="announcement" id="announce">
 - Upacara hari Senin pukul 07.00 WIB <br>
 - Kebersihan kelas menjadi tanggung jawab bersama <br>
-- Setoran hafalan setiap ba'da Subuh  <br>
-- Ustad Rudi Jangan sampai terlambat <br>
-- Jangan Lupa Murajaah
+- Setoran hafalan setiap ba'da Subuh
 </div>
 
 </div>
 
 <div class="running-text">
 <marquee>
-"Menuntut ilmu adalah jalan menuju surga" | Madrasah Aliyah Darul Huffazh | Muhammad Ja'far M
+"Menuntut ilmu adalah jalan menuju surga" | Madrasah Aliyah Darul Huffazh
 </marquee>
 </div>
 
 <script>
+// ===================== JAM & TANGGAL =====================
 function updateClock(){
     let now = new Date();
     let h = String(now.getHours()).padStart(2,'0');
@@ -156,19 +168,18 @@ function updateClock(){
     let days = ["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
     let months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
-    let day = days[now.getDay()];
-    let date = now.getDate();
-    let month = months[now.getMonth()];
-    let year = now.getFullYear();
-
     document.getElementById("date").innerHTML =
-    day + ", " + date + " " + month + " " + year;
+    days[now.getDay()] + ", " +
+    now.getDate() + " " +
+    months[now.getMonth()] + " " +
+    now.getFullYear();
 }
 
 setInterval(updateClock,1000);
 updateClock();
-<script>
-const kota = "bandar lampung";   // wilayah Pesawaran
+
+// ===================== LOAD JADWAL SHOLAT =====================
+const kota = "bandar lampung";   // bisa diganti sesuai kota
 
 async function loadSholat(){
     try{
@@ -194,29 +205,46 @@ async function loadSholat(){
     }
 }
 
-function updateClock(){
-    let now = new Date();
-    let h = String(now.getHours()).padStart(2,'0');
-    let m = String(now.getMinutes()).padStart(2,'0');
-    let s = String(now.getSeconds()).padStart(2,'0');
-    document.getElementById("clock").innerHTML = h+":"+m+":"+s;
+// ===================== COUNTDOWN =====================
+function updateCountdown() {
+    const now = new Date();
+    const sholatTimes = [
+        {name: "Subuh", time: document.getElementById("subuh").textContent},
+        {name: "Dzuhur", time: document.getElementById("dzuhur").textContent},
+        {name: "Ashar", time: document.getElementById("ashar").textContent},
+        {name: "Maghrib", time: document.getElementById("maghrib").textContent},
+        {name: "Isya", time: document.getElementById("isya").textContent}
+    ];
 
-    let days = ["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-    let months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+    let nextSholat = null;
 
-    document.getElementById("date").innerHTML =
-    days[now.getDay()] + ", " +
-    now.getDate() + " " +
-    months[now.getMonth()] + " " +
-    now.getFullYear();
+    for (let i = 0; i < sholatTimes.length; i++) {
+        const [hour, minute] = sholatTimes[i].time.split(":").map(Number);
+        const sholatDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0);
+        if (sholatDate > now) {
+            nextSholat = sholatDate;
+            break;
+        }
+    }
+
+    // Jika semua sholat sudah lewat, ambil Subuh besok
+    if (!nextSholat) {
+        const [hour, minute] = sholatTimes[0].time.split(":").map(Number);
+        nextSholat = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, hour, minute, 0);
+    }
+
+    const diff = nextSholat - now;
+    const h = String(Math.floor(diff / (1000*60*60))).padStart(2,"0");
+    const m = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2,"0");
+    const s = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2,"0");
+
+    document.getElementById("countdown").textContent = h + ":" + m + ":" + s;
 }
 
-setInterval(updateClock,1000);
-updateClock();
+setInterval(updateCountdown, 1000);
+updateCountdown();
 loadSholat();
 </script>
 
 </body>
 </html>
-
-
