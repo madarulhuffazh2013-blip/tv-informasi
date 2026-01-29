@@ -13,84 +13,92 @@ body{
 }
 
 .container{
-    padding:30px;
+    padding:20px;
 }
 
+/* HEADER */
 .header{
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
-.logo{
-    font-size:32px;
+/* LOGO AREA */
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-area img{
+    width:60px;   /* DIPERKECIL */
+    height:auto;
+}
+
+.logo-area span{
+    font-size:26px;
     font-weight:bold;
 }
 
+/* JAM */
 .clock{
-    font-size:80px;
+    font-size:64px;  /* SEBELUM 80 */
     font-weight:bold;
 }
 
 .date{
-    font-size:28px;
+    font-size:22px;
 }
 
+/* JUDUL SECTION */
 .section-title{
-    font-size:36px;
-    margin-top:30px;
+    font-size:30px;
+    margin-top:20px;
     border-bottom:3px solid gold;
     width:fit-content;
 }
 
+/* SHOLAT */
 .sholat{
     display:flex;
-    gap:40px;
-    margin-top:20px;
-    font-size:28px;
+    flex-wrap:wrap;
+    gap:20px;
+    margin-top:15px;
+    font-size:24px;
 }
 
 .card{
     background:rgba(0,0,0,0.4);
-    padding:20px 30px;
-    border-radius:15px;
+    padding:15px 20px;
+    border-radius:12px;
     text-align:center;
-    min-width:140px;
+    min-width:120px;
 }
 
+/* PENGUMUMAN */
 .announcement{
-    margin-top:30px;
-    font-size:34px;
+    margin-top:20px;
+    font-size:26px;
     background:rgba(0,0,0,0.4);
-    padding:20px;
-    border-radius:15px;
+    padding:18px;
+    border-radius:12px;
 }
 
+/* RUNNING TEXT */
 .running-text{
     position:fixed;
     bottom:0;
     width:100%;
     background:black;
     color:gold;
-    font-size:28px;
-    padding:10px;
+    font-size:22px;
+    padding:8px;
 }
 
 marquee{
     width:100%;
 }
 </style>
-.logo-area{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.logo-area img{
-    width:80px;
-    height:auto;
-}
-
 
 </head>
 <body>
@@ -100,9 +108,9 @@ marquee{
 <div class="header">
     <div>
         <div class="logo-area">
-    <img src="logo.png">
-    <span>MADRASAH ALIYAH DARUL HUFFAZH</span>
-</div>
+            <img src="logo.png">
+            <span>MADRASAH ALIYAH DARUL HUFFAZH</span>
+        </div>
         <div class="date" id="date"></div>
     </div>
 
@@ -157,6 +165,53 @@ function updateClock(){
 
 setInterval(updateClock,1000);
 updateClock();
+<script>
+const kota = "bandar lampung";   // wilayah Pesawaran
+
+async function loadSholat(){
+    try{
+        let res = await fetch("https://api.myquran.com/v2/sholat/jadwal/kota/cari/"+kota);
+        let data = await res.json();
+        let id = data.data[0].id;
+
+        let today = new Date();
+        let tgl = today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
+
+        let jadwalRes = await fetch("https://api.myquran.com/v2/sholat/jadwal/"+id+"/"+tgl);
+        let jadwalData = await jadwalRes.json();
+        let j = jadwalData.data.jadwal;
+
+        document.getElementById("subuh").innerHTML = j.subuh;
+        document.getElementById("dzuhur").innerHTML = j.dzuhur;
+        document.getElementById("ashar").innerHTML = j.ashar;
+        document.getElementById("maghrib").innerHTML = j.maghrib;
+        document.getElementById("isya").innerHTML = j.isya;
+    }
+    catch(e){
+        console.log("Gagal load jadwal sholat");
+    }
+}
+
+function updateClock(){
+    let now = new Date();
+    let h = String(now.getHours()).padStart(2,'0');
+    let m = String(now.getMinutes()).padStart(2,'0');
+    let s = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById("clock").innerHTML = h+":"+m+":"+s;
+
+    let days = ["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    let months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+    document.getElementById("date").innerHTML =
+    days[now.getDay()] + ", " +
+    now.getDate() + " " +
+    months[now.getMonth()] + " " +
+    now.getFullYear();
+}
+
+setInterval(updateClock,1000);
+updateClock();
+loadSholat();
 </script>
 
 </body>
