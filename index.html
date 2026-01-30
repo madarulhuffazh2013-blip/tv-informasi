@@ -154,32 +154,23 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
-// ================= JADWAL SHOLAT =================
-const kota = "bandar lampung";
+// ================= JADWAL SHOLAT MANUAL =================
 
-async function loadSholat(){
-  try{
-    let res = await fetch("https://api.myquran.com/v2/sholat/jadwal/kota/cari/"+kota);
-    let data = await res.json();
-    let id = data.data[0].id;
+// SILAKAN UBAH JAM SESUAI JADWAL SETEMPAT
+let jadwal = {
+  subuh:   "04:41",
+  dzuhur: "12:12",
+  ashar:  "15:34",
+  maghrib:"18:23",
+  isya:   "19:36"
+};
 
-    let now = new Date();
-    let tgl = now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
+document.getElementById("subuh").innerHTML   = jadwal.subuh;
+document.getElementById("dzuhur").innerHTML  = jadwal.dzuhur;
+document.getElementById("ashar").innerHTML   = jadwal.ashar;
+document.getElementById("maghrib").innerHTML = jadwal.maghrib;
+document.getElementById("isya").innerHTML    = jadwal.isya;
 
-    let jadwal = await fetch("https://api.myquran.com/v2/sholat/jadwal/"+id+"/"+tgl);
-    let jdata = await jadwal.json();
-    let j = jdata.data.jadwal;
-
-    document.getElementById("subuh").innerHTML = j.subuh;
-    document.getElementById("dzuhur").innerHTML = j.dzuhur;
-    document.getElementById("ashar").innerHTML = j.ashar;
-    document.getElementById("maghrib").innerHTML = j.maghrib;
-    document.getElementById("isya").innerHTML = j.isya;
-  }catch(e){
-    console.log("Gagal load jadwal sholat");
-  }
-}
-loadSholat();
 
 // ================= SLIDE PENGUMUMAN =================
 let slides = [
@@ -207,3 +198,4 @@ window.addEventListener("click", function(){
 
 </body>
 </html>
+
