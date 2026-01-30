@@ -7,7 +7,7 @@
 <style>
 body{
     margin:0;
-    background: linear-gradient(#0b3d2e, #145a32);
+    background: linear-gradient(#0b3d2e,#145a32);
     font-family: Arial, sans-serif;
     color:white;
 }
@@ -16,14 +16,12 @@ body{
     padding:20px;
 }
 
-/* HEADER */
 .header{
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
-/* LOGO AREA */
 .logo-area{
     display:flex;
     align-items:center;
@@ -31,8 +29,7 @@ body{
 }
 
 .logo-area img{
-    width:60px;   /* DIPERKECIL */
-    height:auto;
+    width:60px;
 }
 
 .logo-area span{
@@ -40,9 +37,8 @@ body{
     font-weight:bold;
 }
 
-/* JAM */
 .clock{
-    font-size:64px;  /* SEBELUM 80 */
+    font-size:64px;
     font-weight:bold;
 }
 
@@ -50,7 +46,6 @@ body{
     font-size:22px;
 }
 
-/* JUDUL SECTION */
 .section-title{
     font-size:30px;
     margin-top:20px;
@@ -58,7 +53,6 @@ body{
     width:fit-content;
 }
 
-/* SHOLAT */
 .sholat{
     display:flex;
     flex-wrap:wrap;
@@ -75,7 +69,6 @@ body{
     min-width:120px;
 }
 
-/* PENGUMUMAN */
 .announcement{
     margin-top:20px;
     font-size:26px;
@@ -84,7 +77,6 @@ body{
     border-radius:12px;
 }
 
-/* RUNNING TEXT */
 .running-text{
     position:fixed;
     bottom:0;
@@ -99,51 +91,50 @@ marquee{
     width:100%;
 }
 </style>
-
 </head>
+
 <body>
+
+<!-- AUDIO BACKGROUND -->
+<audio id="bgAudio" autoplay loop>
+  <source src="bg.mp3" type="audio/mpeg">
+</audio>
 
 <div class="container">
 
 <div class="header">
-    <div>
-        <div class="logo-area">
-            <img src="logo.png">
-            <span>MADRASAH ALIYAH DARUL HUFFAZH</span>
-        </div>
-        <div class="date" id="date"></div>
+  <div>
+    <div class="logo-area">
+      <img src="logo.png">
+      <span>MADRASAH ALIYAH DARUL HUFFAZH</span>
     </div>
+    <div class="date" id="date"></div>
+  </div>
 
-    <div class="clock" id="clock"></div>
+  <div class="clock" id="clock"></div>
 </div>
 
 <div class="section-title">WAKTU SHOLAT</div>
 
 <div class="sholat">
-    <div class="card">Subuh<br><span id="subuh">04:41</span></div>
-    <div class="card">Dzuhur<br><span id="dzuhur">12:12</span></div>
-    <div class="card">Ashar<br><span id="ashar">15:34</span></div>
-    <div class="card">Maghrib<br><span id="maghrib">18:23</span></div>
-    <div class="card">Isya<br><span id="isya">19:36</span></div>
+  <div class="card">Subuh<br><span id="subuh">--:--</span></div>
+  <div class="card">Dzuhur<br><span id="dzuhur">--:--</span></div>
+  <div class="card">Ashar<br><span id="ashar">--:--</span></div>
+  <div class="card">Maghrib<br><span id="maghrib">--:--</span></div>
+  <div class="card">Isya<br><span id="isya">--:--</span></div>
 </div>
 
 <div class="section-title">PENGUMUMAN</div>
-
-<div class="announcement" id="announce">
-- Upacara hari Senin pukul 07.00 WIB <br>
-- Kebersihan kelas menjadi tanggung jawab bersama <br>
-- Setoran hafalan setiap ba'da Subuh
-</div>
+<div class="announcement" id="announce"></div>
 
 </div>
 
 <div class="running-text">
-<marquee>
-"Menuntut ilmu adalah jalan menuju surga" | Madrasah Aliyah Darul Huffazh
-</marquee>
+<marquee>Menuntut ilmu adalah jalan menuju surga | MA Darul Huffazh</marquee>
 </div>
 
 <script>
+// ================= JAM & TANGGAL =================
 function updateClock(){
     let now = new Date();
     let h = String(now.getHours()).padStart(2,'0');
@@ -154,24 +145,65 @@ function updateClock(){
     let days = ["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
     let months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
-    let day = days[now.getDay()];
-    let date = now.getDate();
-    let month = months[now.getMonth()];
-    let year = now.getFullYear();
-
     document.getElementById("date").innerHTML =
-    day + ", " + date + " " + month + " " + year;
+      days[now.getDay()] + ", " +
+      now.getDate() + " " +
+      months[now.getMonth()] + " " +
+      now.getFullYear();
 }
-
 setInterval(updateClock,1000);
 updateClock();
+
+// ================= JADWAL SHOLAT =================
+const kota = "bandar lampung";
+
+async function loadSholat(){
+  try{
+    let res = await fetch("https://api.myquran.com/v2/sholat/jadwal/kota/cari/"+kota);
+    let data = await res.json();
+    let id = data.data[0].id;
+
+    let now = new Date();
+    let tgl = now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
+
+    let jadwal = await fetch("https://api.myquran.com/v2/sholat/jadwal/"+id+"/"+tgl);
+    let jdata = await jadwal.json();
+    let j = jdata.data.jadwal;
+
+    document.getElementById("subuh").innerHTML = j.subuh;
+    document.getElementById("dzuhur").innerHTML = j.dzuhur;
+    document.getElementById("ashar").innerHTML = j.ashar;
+    document.getElementById("maghrib").innerHTML = j.maghrib;
+    document.getElementById("isya").innerHTML = j.isya;
+  }catch(e){
+    console.log("Gagal load jadwal sholat");
+  }
+}
+loadSholat();
+
+// ================= SLIDE PENGUMUMAN =================
+let slides = [
+"Upacara hari Senin pukul 07.00 WIB",
+"Setoran hafalan setiap ba'da Subuh",
+"Jaga kebersihan kelas dan lingkungan",
+"Disiplin waktu adalah kunci keberhasilan",
+"Gunakan seragam sesuai ketentuan madrasah"
+];
+
+let i = 0;
+function gantiSlide(){
+  document.getElementById("announce").innerHTML = slides[i];
+  i++;
+  if(i >= slides.length) i = 0;
+}
+gantiSlide();
+setInterval(gantiSlide,600000); // 10 menit
+
+// ===== AUTOPLAY AUDIO FIX =====
+window.addEventListener("click", function(){
+  document.getElementById("bgAudio").play();
+});
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
