@@ -129,11 +129,7 @@ marquee{
 
 <div class="section-title">PENGUMUMAN</div>
 
-<div class="announcement" id="announce">
-- Upacara hari Senin pukul 07.30 WIB <br>
-- Kebersihan kelas menjadi tanggung jawab bersama <br>
-- 15 menit sebelum adzan sudah berada di masjid
-</div>
+<div class="announcement" id="announce"></div>
 
 </div>
 
@@ -166,7 +162,28 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 </script>
+let slides = [
+"Upacara hari Senin pukul 07.00 WIB",
+"Setoran hafalan setiap ba'da Subuh",
+"Jaga kebersihan kelas dan lingkungan",
+"Disiplin waktu adalah kunci keberhasilan",
+"Gunakan seragam sesuai ketentuan madrasah"
+];
+
+let indexSlide = 0;
+
+function gantiSlide(){
+    document.getElementById("announce").innerHTML = slides[indexSlide];
+    indexSlide++;
+    if(indexSlide >= slides.length){
+        indexSlide = 0;
+    }
+}
+
+gantiSlide();
+setInterval(gantiSlide, 600000); // 10 menit
 
 </body>
 </html>
+
 
