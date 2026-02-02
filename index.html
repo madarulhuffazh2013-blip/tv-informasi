@@ -159,4 +159,60 @@ function updateClock(){
  let n=new Date();
  clock.innerHTML=
  String(n.getHours()).padStart(2,'0')+":"+
- String(n.getMinutes()
+ String(n.getMinutes()).padStart(2,'0')+":"+
+ String(n.getSeconds()).padStart(2,'0');
+
+ let hari=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+ let bulan=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+ date.innerHTML=hari[n.getDay()]+", "+n.getDate()+" "+bulan[n.getMonth()]+" "+n.getFullYear();
+}
+setInterval(updateClock,1000);
+updateClock();
+
+// SHOLAT MANUAL
+let jadwal={
+ subuh:"04:45",
+ dzuhur:"12:10",
+ ashar:"15:30",
+ maghrib:"18:15",
+ isya:"19:25"
+};
+
+subuh.innerHTML=jadwal.subuh;
+dzuhur.innerHTML=jadwal.dzuhur;
+ashar.innerHTML=jadwal.ashar;
+maghrib.innerHTML=jadwal.maghrib;
+isya.innerHTML=jadwal.isya;
+
+// SLIDE
+let slides=[
+{arab:"قَالَ رَسُولُ اللَّهِ ﷺ : خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",arti:"Sebaik-baik kalian adalah orang yang belajar Al-Qur’an dan mengajarkannya."},
+{arab:"إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",arti:"Sesungguhnya setiap amal tergantung pada niatnya."},
+{arab:"طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ",arti:"Menuntut ilmu adalah kewajiban bagi setiap muslim."},
+"Upacara hari Senin pukul 07.00 WIB",
+"Jaga kebersihan kelas dan lingkungan"
+];
+
+let i=0;
+function gantiSlide(){
+ let s=slides[i];
+ if(typeof s==="string"){
+   announce.innerHTML=s;
+ }else{
+   announce.innerHTML="<div class='arab'>"+s.arab+"</div><div class='arti'>"+s.arti+"</div>";
+ }
+ i++;
+ if(i>=slides.length) i=0;
+}
+gantiSlide();
+setInterval(gantiSlide,60000);
+
+// AUDIO FIX
+window.addEventListener("click",()=>{
+ document.getElementById("bgAudio").play();
+});
+</script>
+
+</body>
+</html>
