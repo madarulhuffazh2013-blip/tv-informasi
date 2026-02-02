@@ -74,25 +74,30 @@ body::before{
     min-width:120px;
 }
 
+/* PENGUMUMAN BIASA */
 .announcement{
     margin-top:20px;
     background:rgba(0,0,0,0.4);
     padding:20px;
     border-radius:12px;
     text-align:left;
-    font-size:28px;   /* DIBESARKAN */
+    font-size:28px;
 }
 
+/* ARAB */
 .arab{
     font-family:'Amiri', serif;
     font-size:48px;
     margin-bottom:12px;
-    text-align:center;
+    text-align:center !important;
+    width:100%;
 }
 
+/* ARTI */
 .arti{
     font-size:24px;
     text-align:center;
+    width:100%;
 }
 
 .running-text{
@@ -149,66 +154,9 @@ marquee{width:100%;}
 </div>
 
 <script>
-// ===== JAM =====
+// JAM
 function updateClock(){
- let now=new Date();
- let h=String(now.getHours()).padStart(2,'0');
- let m=String(now.getMinutes()).padStart(2,'0');
- let s=String(now.getSeconds()).padStart(2,'0');
- document.getElementById("clock").innerHTML=h+":"+m+":"+s;
-
- let days=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
- let months=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-
- document.getElementById("date").innerHTML=
- days[now.getDay()]+", "+now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
-}
-setInterval(updateClock,1000);
-updateClock();
-
-// ===== SHOLAT MANUAL =====
-let jadwal={
- subuh:"04:45",
- dzuhur:"12:10",
- ashar:"15:30",
- maghrib:"18:15",
- isya:"19:25"
-};
-
-subuh.innerHTML=jadwal.subuh;
-dzuhur.innerHTML=jadwal.dzuhur;
-ashar.innerHTML=jadwal.ashar;
-maghrib.innerHTML=jadwal.maghrib;
-isya.innerHTML=jadwal.isya;
-
-// ===== SLIDE =====
-let slides=[
-{arab:"قَالَ رَسُولُ اللَّهِ ﷺ : خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",arti:"Sebaik-baik kalian adalah orang yang belajar Al-Qur’an dan mengajarkannya."},
-{arab:"إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",arti:"Sesungguhnya setiap amal tergantung pada niatnya."},
-{arab:"طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ",arti:"Menuntut ilmu adalah kewajiban bagi setiap muslim."},
-"Upacara hari Senin pukul 07.00 WIB",
-"Jaga kebersihan kelas dan lingkungan"
-];
-
-let i=0;
-function gantiSlide(){
- let s=slides[i];
- if(typeof s==="string"){
-   announce.innerHTML=s;
- }else{
-   announce.innerHTML="<div class='arab'>"+s.arab+"</div><div class='arti'>"+s.arti+"</div>";
- }
- i++;
- if(i>=slides.length) i=0;
-}
-gantiSlide();
-setInterval(gantiSlide,600000);
-
-// ===== AUDIO FIX =====
-window.addEventListener("click",()=>{
- document.getElementById("bgAudio").play();
-});
-</script>
-
-</body>
-</html>
+ let n=new Date();
+ clock.innerHTML=
+ String(n.getHours()).padStart(2,'0')+":"+
+ String(n.getMinutes()
