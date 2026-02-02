@@ -4,29 +4,28 @@
 <meta charset="UTF-8">
 <title>Informasi Pondok</title>
 
+<!-- FONT AMIRI -->
+<link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+
 <style>
 body{
     margin:0;
-    background: url("bg.jpg") no-repeat center center fixed;
-    background-size: cover;
-    font-family: Arial, sans-serif;
+    background:url("bg.jpg") no-repeat center center fixed;
+    background-size:cover;
+    font-family:Arial, sans-serif;
     color:white;
 }
 
-/* lapisan gelap agar teks jelas */
+/* lapisan gelap */
 body::before{
     content:"";
     position:fixed;
-    top:0; left:0;
-    width:100%;
-    height:100%;
+    inset:0;
     background:rgba(0,0,0,0.45);
     z-index:-1;
 }
 
-.container{
-    padding:20px;
-}
+.container{padding:20px;}
 
 .header{
     display:flex;
@@ -40,9 +39,7 @@ body::before{
     gap:12px;
 }
 
-.logo-area img{
-    width:60px;
-}
+.logo-area img{width:60px;}
 
 .logo-area span{
     font-size:26px;
@@ -54,9 +51,7 @@ body::before{
     font-weight:bold;
 }
 
-.date{
-    font-size:22px;
-}
+.date{font-size:22px;}
 
 .section-title{
     font-size:30px;
@@ -83,11 +78,20 @@ body::before{
 
 .announcement{
     margin-top:20px;
-    font-size:26px;
     background:rgba(0,0,0,0.4);
-    padding:18px;
+    padding:20px;
     border-radius:12px;
-    white-space: pre-line;
+    text-align:center;
+}
+
+.arab{
+    font-family:'Amiri', serif;
+    font-size:36px;
+    margin-bottom:12px;
+}
+
+.arti{
+    font-size:22px;
 }
 
 .running-text{
@@ -100,7 +104,7 @@ body::before{
     padding:8px;
 }
 
-marquee{ width:100%; }
+marquee{width:100%;}
 </style>
 </head>
 
@@ -121,7 +125,6 @@ marquee{ width:100%; }
     </div>
     <div class="date" id="date"></div>
   </div>
-
   <div class="clock" id="clock"></div>
 </div>
 
@@ -135,7 +138,7 @@ marquee{ width:100%; }
   <div class="card">Isya<br><span id="isya"></span></div>
 </div>
 
-<div class="section-title">PENGUMUMAN</div>
+<div class="section-title">HADITS PILIHAN</div>
 <div class="announcement" id="announce"></div>
 
 </div>
@@ -145,67 +148,70 @@ marquee{ width:100%; }
 </div>
 
 <script>
-// ================= JAM & TANGGAL =================
+// ===== JAM & TANGGAL =====
 function updateClock(){
-  let now = new Date();
-  let h = String(now.getHours()).padStart(2,'0');
-  let m = String(now.getMinutes()).padStart(2,'0');
-  let s = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById("clock").innerHTML = h+":"+m+":"+s;
+ let now=new Date();
+ let h=String(now.getHours()).padStart(2,'0');
+ let m=String(now.getMinutes()).padStart(2,'0');
+ let s=String(now.getSeconds()).padStart(2,'0');
+ document.getElementById("clock").innerHTML=h+":"+m+":"+s;
 
-  let days = ["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-  let months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+ let days=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+ let months=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
-  document.getElementById("date").innerHTML =
-    days[now.getDay()] + ", " +
-    now.getDate() + " " +
-    months[now.getMonth()] + " " +
-    now.getFullYear();
+ document.getElementById("date").innerHTML=
+ days[now.getDay()]+", "+now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
 }
 setInterval(updateClock,1000);
 updateClock();
 
-// ================= JADWAL SHOLAT MANUAL =================
-let jadwal = {
-  subuh:   "04:45",
-  dzuhur: "12:10",
-  ashar:  "15:30",
-  maghrib:"18:15",
-  isya:   "19:25"
+// ===== JADWAL SHOLAT MANUAL =====
+let jadwal={
+ subuh:"04:45",
+ dzuhur:"12:10",
+ ashar:"15:30",
+ maghrib:"18:15",
+ isya:"19:25"
 };
 
-document.getElementById("subuh").innerHTML   = jadwal.subuh;
-document.getElementById("dzuhur").innerHTML  = jadwal.dzuhur;
-document.getElementById("ashar").innerHTML   = jadwal.ashar;
-document.getElementById("maghrib").innerHTML = jadwal.maghrib;
-document.getElementById("isya").innerHTML    = jadwal.isya;
+document.getElementById("subuh").innerHTML=jadwal.subuh;
+document.getElementById("dzuhur").innerHTML=jadwal.dzuhur;
+document.getElementById("ashar").innerHTML=jadwal.ashar;
+document.getElementById("maghrib").innerHTML=jadwal.maghrib;
+document.getElementById("isya").innerHTML=jadwal.isya;
 
-// ================= SLIDE PENGUMUMAN =================
-let slides = [
-"خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ\nSebaik-baik kalian adalah yang belajar Al-Qur’an dan mengajarkannya.\nHR. Bukhari",
-"Setoran hafalan setiap ba'da Subuh",
-"Jaga kebersihan kelas dan lingkungan",
-"Disiplin waktu adalah kunci keberhasilan",
-"Gunakan seragam sesuai ketentuan madrasah"
+// ===== SLIDE HADITS =====
+let slides=[
+{
+arab:"قَالَ رَسُولُ اللَّهِ ﷺ : خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+arti:"Sebaik-baik kalian adalah orang yang belajar Al-Qur’an dan mengajarkannya."
+},
+{
+arab:"إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
+arti:"Sesungguhnya setiap amal tergantung pada niatnya."
+},
+{
+arab:"طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ",
+arti:"Menuntut ilmu adalah kewajiban bagi setiap muslim."
+}
 ];
 
-let i = 0;
+let i=0;
 function gantiSlide(){
-  document.getElementById("announce").innerHTML = slides[i];
-  i++;
-  if(i >= slides.length) i = 0;
+ document.getElementById("announce").innerHTML=
+ "<div class='arab'>"+slides[i].arab+"</div>"+
+ "<div class='arti'>"+slides[i].arti+"</div>";
+ i++;
+ if(i>=slides.length) i=0;
 }
 gantiSlide();
-setInterval(gantiSlide,600000); // 10 menit
+setInterval(gantiSlide,600000);
 
 // ===== AUTOPLAY AUDIO FIX =====
-window.addEventListener("click", function(){
-  document.getElementById("bgAudio").play();
+window.addEventListener("click",function(){
+ document.getElementById("bgAudio").play();
 });
 </script>
 
 </body>
 </html>
-
-
-
