@@ -54,6 +54,16 @@ body::before{
  font-size:90px;
 }
 
+.sec{
+ font-size:40px;
+ margin-left:10px;
+ animation:blink 1s infinite;
+}
+
+@keyframes blink{
+ 50%{opacity:0;}
+}
+
 .date{ font-size:22px; }
 
 .announcement{
@@ -136,7 +146,11 @@ body::before{
    </div>
    <div class="date" id="date"></div>
  </div>
- <div class="clock" id="clock"></div>
+
+ <div class="clock">
+   <span id="jam"></span>:<span id="menit"></span>
+   <span id="detik" class="sec"></span>
+ </div>
 </div>
 
 <div class="announcement" id="announce"></div>
@@ -164,18 +178,12 @@ function aktifkanAudio(){
  });
 }
 
-// JAM CERDAS
+// JAM
 function updateClock(){
  let n=new Date();
- let h=String(n.getHours()).padStart(2,'0');
- let m=String(n.getMinutes()).padStart(2,'0');
- let s=String(n.getSeconds()).padStart(2,'0');
-
- if(n.getSeconds()>=50){
-   clock.innerHTML=m+":"+s;
- }else{
-   clock.innerHTML=h+":"+m;
- }
+ jam.innerHTML=String(n.getHours()).padStart(2,'0');
+ menit.innerHTML=String(n.getMinutes()).padStart(2,'0');
+ detik.innerHTML=String(n.getSeconds()).padStart(2,'0');
 
  let hari=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
  let bulan=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
