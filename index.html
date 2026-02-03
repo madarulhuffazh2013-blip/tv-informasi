@@ -4,9 +4,15 @@
 <meta charset="UTF-8">
 <title>Informasi Pondok</title>
 
+<!-- Font Arab -->
 <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
 
 <style>
+@font-face{
+  font-family:"Digital-7";
+  src:url("Digital-7.ttf");
+}
+
 body{
     margin:0;
     background:url("bg.jpg") no-repeat center center fixed;
@@ -23,8 +29,12 @@ body::before{
     z-index:-1;
 }
 
-.container{padding:20px;}
+.container{
+    padding:20px;
+    padding-bottom:200px;
+}
 
+/* HEADER */
 .header{
     display:flex;
     justify-content:space-between;
@@ -44,62 +54,70 @@ body::before{
     font-weight:bold;
 }
 
+/* JAM */
 .clock{
-    font-size:64px;
-    font-weight:bold;
+    font-family:"Digital-7", monospace;
+    font-size:90px;
+    letter-spacing:4px;
 }
 
-.date{font-size:22px;}
-
-.section-title{
-    font-size:30px;
-    margin-top:20px;
-    border-bottom:3px solid gold;
-    width:fit-content;
+/* TANGGAL */
+.date{
+    font-size:22px;
 }
 
-.sholat{
-    display:flex;
-    flex-wrap:wrap;
-    gap:20px;
-    margin-top:15px;
-    font-size:24px;
-}
-
-.card{
-    background:rgba(0,0,0,0.4);
-    padding:15px 20px;
-    border-radius:12px;
-    text-align:center;
-    min-width:120px;
-}
-
-/* PENGUMUMAN BIASA */
+/* PENGUMUMAN */
 .announcement{
-    margin-top:20px;
+    margin-top:40px;
     background:rgba(0,0,0,0.4);
-    padding:20px;
-    border-radius:12px;
-    text-align:left;
-    font-size:28px;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    font-size:30px;
 }
 
 /* ARAB */
 .arab{
     font-family:'Amiri', serif;
-    font-size:48px;
+    font-size:52px;
     margin-bottom:12px;
-    text-align:center !important;
-    width:100%;
 }
 
 /* ARTI */
 .arti{
-    font-size:24px;
-    text-align:center;
-    width:100%;
+    font-size:26px;
 }
 
+/* JADWAL SHOLAT */
+.sholat-bar{
+    position:fixed;
+    bottom:45px;
+    width:100%;
+    display:flex;
+    justify-content:space-around;
+    padding:10px;
+}
+
+.sholat-item{
+    background:black;
+    padding:10px 20px;
+    border-radius:10px;
+    text-align:center;
+    min-width:120px;
+}
+
+.sholat-item .nama{
+    font-size:22px;
+    border-bottom:2px solid gold;
+    margin-bottom:5px;
+    padding-bottom:3px;
+}
+
+.sholat-item .jam{
+    font-size:26px;
+}
+
+/* RUNNING TEXT */
 .running-text{
     position:fixed;
     bottom:0;
@@ -116,12 +134,14 @@ marquee{width:100%;}
 
 <body>
 
-<audio id="bgAudio" autoplay loop>
-  <source src="bg.mp3" type="audio/mpeg">
+<!-- AUDIO 11:45 -->
+<audio id="pengumuman1145">
+  <source src="pengumuman1145.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
 
+<!-- HEADER -->
 <div class="header">
   <div>
     <div class="logo-area">
@@ -134,21 +154,40 @@ marquee{width:100%;}
   <div class="clock" id="clock"></div>
 </div>
 
-<div class="section-title">WAKTU SHOLAT</div>
-
-<div class="sholat">
-  <div class="card">Subuh<br><span id="subuh"></span></div>
-  <div class="card">Dzuhur<br><span id="dzuhur"></span></div>
-  <div class="card">Ashar<br><span id="ashar"></span></div>
-  <div class="card">Maghrib<br><span id="maghrib"></span></div>
-  <div class="card">Isya<br><span id="isya"></span></div>
-</div>
-
-<div class="section-title">PENGUMUMAN</div>
+<!-- PENGUMUMAN -->
 <div class="announcement" id="announce"></div>
 
 </div>
 
+<!-- JADWAL SHOLAT -->
+<div class="sholat-bar">
+  <div class="sholat-item">
+    <div class="nama">Subuh</div>
+    <div class="jam" id="subuh"></div>
+  </div>
+
+  <div class="sholat-item">
+    <div class="nama">Dzuhur</div>
+    <div class="jam" id="dzuhur"></div>
+  </div>
+
+  <div class="sholat-item">
+    <div class="nama">Ashar</div>
+    <div class="jam" id="ashar"></div>
+  </div>
+
+  <div class="sholat-item">
+    <div class="nama">Maghrib</div>
+    <div class="jam" id="maghrib"></div>
+  </div>
+
+  <div class="sholat-item">
+    <div class="nama">Isya</div>
+    <div class="jam" id="isya"></div>
+  </div>
+</div>
+
+<!-- RUNNING TEXT -->
 <div class="running-text">
 <marquee>Menuntut ilmu adalah jalan menuju surga | MA Darul Huffazh</marquee>
 </div>
@@ -157,10 +196,9 @@ marquee{width:100%;}
 // JAM
 function updateClock(){
  let n=new Date();
- clock.innerHTML=
- String(n.getHours()).padStart(2,'0')+":"+
- String(n.getMinutes()).padStart(2,'0')+":"+
- String(n.getSeconds()).padStart(2,'0');
+ let h=String(n.getHours()).padStart(2,'0');
+ let m=String(n.getMinutes()).padStart(2,'0');
+ clock.innerHTML=h+":"+m;
 
  let hari=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
  let bulan=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -170,7 +208,7 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
-// SHOLAT MANUAL
+// JADWAL SHOLAT
 let jadwal={
  subuh:"04:45",
  dzuhur:"12:10",
@@ -187,9 +225,12 @@ isya.innerHTML=jadwal.isya;
 
 // SLIDE
 let slides=[
-{arab:"قَالَ رَسُولُ اللَّهِ ﷺ : خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",arti:"Sebaik-baik kalian adalah orang yang belajar Al-Qur’an dan mengajarkannya."},
-{arab:"إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",arti:"Sesungguhnya setiap amal tergantung pada niatnya."},
-{arab:"طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ",arti:"Menuntut ilmu adalah kewajiban bagi setiap muslim."},
+{arab:"قَالَ رَسُولُ اللَّهِ ﷺ : خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+ arti:"Sebaik-baik kalian adalah orang yang belajar Al-Qur’an dan mengajarkannya."},
+
+{arab:"إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
+ arti:"Sesungguhnya setiap amal tergantung pada niatnya."},
+
 "Upacara hari Senin pukul 07.00 WIB",
 "Jaga kebersihan kelas dan lingkungan"
 ];
@@ -200,18 +241,32 @@ function gantiSlide(){
  if(typeof s==="string"){
    announce.innerHTML=s;
  }else{
-   announce.innerHTML="<div class='arab'>"+s.arab+"</div><div class='arti'>"+s.arti+"</div>";
+   announce.innerHTML=
+   "<div class='arab'>"+s.arab+"</div>"+
+   "<div class='arti'>"+s.arti+"</div>";
  }
  i++;
  if(i>=slides.length) i=0;
 }
 gantiSlide();
-setInterval(gantiSlide,60000);
+setInterval(gantiSlide,600000);
 
-// AUDIO FIX
-window.addEventListener("click",()=>{
- document.getElementById("bgAudio").play();
-});
+// AUDIO 11:45
+let sudah=false;
+function cek1145(){
+ let n=new Date();
+ let j=String(n.getHours()).padStart(2,'0');
+ let m=String(n.getMinutes()).padStart(2,'0');
+
+ if(j==="11" && m==="45" && !sudah){
+   document.getElementById("pengumuman1145").play();
+   sudah=true;
+ }
+ if(j==="11" && m==="46"){
+   sudah=false;
+ }
+}
+setInterval(cek1145,1000);
 </script>
 
 </body>
