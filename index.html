@@ -4,10 +4,16 @@
 <meta charset="UTF-8">
 <title>MA Darul Huffazh TV</title>
 
+<!-- Fallback font -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
 
 <style>
+@font-face{
+ font-family:"Digital-7";
+ src:url("Digital-7.ttf");
+}
+
 body{
  margin:0;
  background:url("bg.jpg") no-repeat center center fixed;
@@ -31,20 +37,35 @@ body::before{
  padding:20px;
 }
 
+.logo-area{
+ display:flex;
+ align-items:center;
+ gap:15px;
+}
+
+.logo-area img{
+ width:80px;
+}
+
+.title{
+ font-size:28px;
+ font-weight:bold;
+}
+
 .clock{
- font-family:'Orbitron',monospace;
+ font-family:"digital-7",'Orbitron',monospace;
  font-size:90px;
 }
 
 .date{
- font-size:24px;
+ font-size:22px;
 }
 
 .announcement{
  text-align:center;
  font-size:32px;
- margin-top:40px;
- padding:20px;
+ margin:40px;
+ padding:25px;
  background:rgba(0,0,0,0.4);
  border-radius:15px;
 }
@@ -52,6 +73,7 @@ body::before{
 .arab{
  font-family:'Amiri',serif;
  font-size:52px;
+ margin-bottom:10px;
 }
 
 .sholat-bar{
@@ -67,7 +89,7 @@ body::before{
  padding:12px 18px;
  border-radius:12px;
  text-align:center;
- min-width:110px;
+ min-width:120px;
 }
 
 .nama{
@@ -93,7 +115,7 @@ body::before{
  position:fixed;
  inset:0;
  margin:auto;
- width:350px;
+ width:360px;
  height:120px;
  background:green;
  color:white;
@@ -114,7 +136,13 @@ body::before{
 </audio>
 
 <div class="header">
- <div class="date" id="date"></div>
+ <div>
+   <div class="logo-area">
+     <img src="logo.png">
+     <div class="title">MADRASAH ALIYAH DARUL HUFFAZH</div>
+   </div>
+   <div class="date" id="date"></div>
+ </div>
  <div class="clock" id="clock"></div>
 </div>
 
@@ -143,6 +171,7 @@ function aktifkanAudio(){
  });
 }
 
+// JAM
 function updateClock(){
  let n=new Date();
  let h=String(n.getHours()).padStart(2,'0');
@@ -156,6 +185,7 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
+// SHOLAT MANUAL
 let jadwal={
  subuh:"04:42",
  dzuhur:"12:13",
@@ -170,6 +200,7 @@ ashar.innerHTML=jadwal.ashar;
 maghrib.innerHTML=jadwal.maghrib;
 isya.innerHTML=jadwal.isya;
 
+// SLIDE
 let slides=[
  {arab:"خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
   arti:"Sebaik-baik kalian adalah yang belajar Al-Qur'an dan mengajarkannya."},
@@ -188,8 +219,9 @@ function gantiSlide(){
  i++; if(i>=slides.length)i=0;
 }
 gantiSlide();
-setInterval(gantiSlide,600000);
+setInterval(gantiSlide,60000);
 
+// AUDIO 11:45
 let sudah=false;
 function cekAudio(){
  let n=new Date();
@@ -204,17 +236,14 @@ function cekAudio(){
 setInterval(cekAudio,1000);
 
 // AUTO RELOAD
-setInterval(function(){
- location.reload();
-},300000);
+setInterval(()=>location.reload(),300000);
 
 // CEGAH SCREEN SAVER
-setInterval(function(){
- document.body.style.opacity =
+setInterval(()=>{
+ document.body.style.opacity=
  document.body.style.opacity=="1"?"0.99":"1";
 },60000);
 </script>
 
 </body>
 </html>
-
