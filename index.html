@@ -221,7 +221,7 @@ function cek1145(){
  let n=new Date();
  let j=String(n.getHours()).padStart(2,'0');
  let m=String(n.getMinutes()).padStart(2,'0');
- if(j==="08" && m==="32" && !sudah && audioUnlocked){
+ if(j==="08" && m==="36" && !sudah && audioUnlocked){
    document.getElementById("pengumuman1145").play();
    sudah=true;
  }
@@ -232,4 +232,3 @@ setInterval(cek1145,1000);
 
 </body>
 </html>
-
