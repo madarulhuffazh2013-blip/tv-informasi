@@ -168,7 +168,7 @@ function aktifkanAudio(){
  });
 }
 
-// JAM + TANGGAL BERGANTIAN
+// JAM & TANGGAL
 function updateClock(){
  let n=new Date();
  let h=String(n.getHours()).padStart(2,'0');
@@ -177,27 +177,13 @@ function updateClock(){
 
  let hari=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
  let bulan=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
-
- let masehi =
+ tanggal.innerHTML=
   hari[n.getDay()]+", "+n.getDate()+" "+bulan[n.getMonth()]+" "+n.getFullYear();
-
- let hijriFormatter = new Intl.DateTimeFormat('id-TN-u-ca-islamic',{
-  day:'numeric',
-  month:'long',
-  year:'numeric'
- });
- let hijriyah = hijriFormatter.format(n)+" H";
-
- if(n.getMinutes()%2===0){
-  tanggal.innerHTML=masehi;
- }else{
-  tanggal.innerHTML=hijriyah;
- }
 }
 setInterval(updateClock,1000);
 updateClock();
 
-// SHOLAT
+// SHOLAT MANUAL
 let jadwal={
  subuh:"04:42",
  dzuhur:"12:13",
