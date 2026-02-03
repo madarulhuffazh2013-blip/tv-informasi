@@ -213,7 +213,7 @@ function gantiSlide(){
  i++; if(i>=slides.length) i=0;
 }
 gantiSlide();
-setInterval(gantiSlide,600000);
+setInterval(gantiSlide,60000);
 
 // AUDIO 11:45
 let sudah=false;
@@ -221,15 +221,16 @@ function cek1145(){
  let n=new Date();
  let j=String(n.getHours()).padStart(2,'0');
  let m=String(n.getMinutes()).padStart(2,'0');
- if(j==="08" && m==="38" && !sudah && audioUnlocked){
+ if(j==="11" && m==="45" && !sudah && audioUnlocked){
    document.getElementById("pengumuman1145").play();
    sudah=true;
  }
- if(j==="08" && m==="46"){sudah=false;}
+ if(j==="11" && m==="47"){sudah=false;}
 }
 setInterval(cek1145,1000);
 </script>
 
 </body>
 </html>
+
 
