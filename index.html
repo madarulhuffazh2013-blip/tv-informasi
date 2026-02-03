@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>MA Darul Huffazh TV</title>
 
-<!-- Fallback font -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
 
@@ -53,7 +52,7 @@ body::before{
 }
 
 .clock{
- font-family:"digital-7",monospace;
+ font-family:"digital-7",'Orbitron',monospace;
  font-size:90px;
 }
 
@@ -171,12 +170,15 @@ function aktifkanAudio(){
  });
 }
 
-// JAM
+// JAM BERKEDIP
+let titik=true;
 function updateClock(){
  let n=new Date();
  let h=String(n.getHours()).padStart(2,'0');
  let m=String(n.getMinutes()).padStart(2,'0');
- clock.innerHTML=h+":"+m;
+ let separator = titik ? ":" : " ";
+ titik = !titik;
+ clock.innerHTML = h + separator + m;
 
  let hari=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
  let bulan=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
@@ -185,7 +187,7 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
-// SHOLAT MANUAL
+// SHOLAT
 let jadwal={
  subuh:"04:42",
  dzuhur:"12:13",
@@ -235,9 +237,6 @@ function cekAudio(){
 }
 setInterval(cekAudio,1000);
 
-// AUTO RELOAD
-setInterval(()=>location.reload(),300000);
-
 // CEGAH SCREEN SAVER
 setInterval(()=>{
  document.body.style.opacity=
@@ -247,7 +246,3 @@ setInterval(()=>{
 
 </body>
 </html>
-
-
-
-
