@@ -54,17 +54,10 @@ body::before{
  font-size:90px;
 }
 
-.sec{
- font-size:40px;
- margin-left:10px;
- animation:blink 1s infinite;
+.date{
+ font-size:22px;
+ color:#ffd700;
 }
-
-@keyframes blink{
- 50%{opacity:0;}
-}
-
-.date{ font-size:22px; }
 
 .announcement{
  text-align:center;
@@ -144,13 +137,10 @@ body::before{
      <img src="logo.png">
      <div class="title">MADRASAH ALIYAH DARUL HUFFAZH</div>
    </div>
-   <div class="date" id="date"></div>
+   <div class="date" id="tanggal"></div>
  </div>
 
- <div class="clock">
-   <span id="jam"></span>:<span id="menit"></span>
-   <span id="detik" class="sec"></span>
- </div>
+ <div class="clock" id="clock"></div>
 </div>
 
 <div class="announcement" id="announce"></div>
@@ -178,16 +168,31 @@ function aktifkanAudio(){
  });
 }
 
-// JAM
+// JAM + TANGGAL BERGANTIAN
 function updateClock(){
  let n=new Date();
- jam.innerHTML=String(n.getHours()).padStart(2,'0');
- menit.innerHTML=String(n.getMinutes()).padStart(2,'0');
- detik.innerHTML=String(n.getSeconds()).padStart(2,'0');
+ let h=String(n.getHours()).padStart(2,'0');
+ let m=String(n.getMinutes()).padStart(2,'0');
+ clock.innerHTML=h+":"+m;
 
  let hari=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
  let bulan=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
- date.innerHTML=hari[n.getDay()]+", "+n.getDate()+" "+bulan[n.getMonth()]+" "+n.getFullYear();
+
+ let masehi =
+  hari[n.getDay()]+", "+n.getDate()+" "+bulan[n.getMonth()]+" "+n.getFullYear();
+
+ let hijriFormatter = new Intl.DateTimeFormat('id-TN-u-ca-islamic',{
+  day:'numeric',
+  month:'long',
+  year:'numeric'
+ });
+ let hijriyah = hijriFormatter.format(n)+" H";
+
+ if(n.getMinutes()%2===0){
+  tanggal.innerHTML=masehi;
+ }else{
+  tanggal.innerHTML=hijriyah;
+ }
 }
 setInterval(updateClock,1000);
 updateClock();
