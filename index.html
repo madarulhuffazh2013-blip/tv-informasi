@@ -4,144 +4,127 @@
 <meta charset="UTF-8">
 <title>Informasi Pondok</title>
 
-<!-- Font Arab -->
 <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
 
 <style>
 @font-face{
-  font-family:"digital-7";
-  src:url("digital-7.ttf");
+  font-family:"Digital-7";
+  src:url("Digital-7.ttf");
 }
 
 body{
-    margin:0;
-    background:url("bg.jpg") no-repeat center center fixed;
-    background-size:cover;
-    font-family:Arial, sans-serif;
-    color:white;
+  margin:0;
+  background:url("bg.jpg") no-repeat center center fixed;
+  background-size:cover;
+  font-family:Arial,sans-serif;
+  color:white;
 }
 
 body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.45);
-    z-index:-1;
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  z-index:-1;
 }
 
-.container{
-    padding:20px;
-    padding-bottom:200px;
-}
+.container{padding:20px;padding-bottom:200px;}
 
-/* HEADER */
 .header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.logo-area{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
+.logo-area{display:flex;gap:12px;align-items:center;}
 .logo-area img{width:60px;}
+.logo-area span{font-size:26px;font-weight:bold;}
 
-.logo-area span{
-    font-size:26px;
-    font-weight:bold;
-}
-
-/* JAM */
 .clock{
-    font-family:"Digital-7", monospace;
-    font-size:90px;
-    letter-spacing:4px;
+  font-family:"Digital-7",monospace;
+  font-size:90px;
+  letter-spacing:4px;
 }
 
-/* TANGGAL */
-.date{
-    font-size:22px;
-}
+.date{font-size:22px;}
 
-/* PENGUMUMAN */
 .announcement{
-    margin-top:40px;
-    background:rgba(0,0,0,0.4);
-    padding:25px;
-    border-radius:15px;
-    text-align:center;
-    font-size:30px;
+  margin-top:40px;
+  background:rgba(0,0,0,0.4);
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+  font-size:30px;
 }
 
-/* ARAB */
 .arab{
-    font-family:'Amiri', serif;
-    font-size:52px;
-    margin-bottom:12px;
+  font-family:'Amiri',serif;
+  font-size:52px;
+  margin-bottom:10px;
 }
 
-/* ARTI */
-.arti{
-    font-size:26px;
-}
+.arti{font-size:26px;}
 
-/* JADWAL SHOLAT */
 .sholat-bar{
-    position:fixed;
-    bottom:45px;
-    width:100%;
-    display:flex;
-    justify-content:space-around;
-    padding:10px;
+  position:fixed;
+  bottom:45px;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  padding:10px;
 }
 
 .sholat-item{
-    background:black;
-    padding:10px 20px;
-    border-radius:10px;
-    text-align:center;
-    min-width:120px;
+  background:black;
+  padding:10px 18px;
+  border-radius:10px;
+  text-align:center;
+  min-width:110px;
 }
 
 .sholat-item .nama{
-    font-size:22px;
-    border-bottom:2px solid gold;
-    margin-bottom:5px;
-    padding-bottom:3px;
+  font-size:22px;
+  border-bottom:2px solid gold;
+  margin-bottom:4px;
 }
 
 .sholat-item .jam{
-    font-size:26px;
+  font-size:26px;
 }
 
-/* RUNNING TEXT */
 .running-text{
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:black;
-    color:gold;
-    font-size:22px;
-    padding:8px;
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:black;
+  color:gold;
+  font-size:22px;
+  padding:8px;
 }
 
 marquee{width:100%;}
+
+#enableAudio{
+  position:fixed;
+  top:10px;
+  right:10px;
+  z-index:999;
+  font-size:14px;
+  padding:6px 10px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO 11:45 -->
+<button id="enableAudio" onclick="aktifkanAudio()">AKTIFKAN AUDIO</button>
+
 <audio id="pengumuman1145">
   <source src="pengumuman1145.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
 
-<!-- HEADER -->
 <div class="header">
   <div>
     <div class="logo-area">
@@ -150,49 +133,36 @@ marquee{width:100%;}
     </div>
     <div class="date" id="date"></div>
   </div>
-
   <div class="clock" id="clock"></div>
 </div>
 
-<!-- PENGUMUMAN -->
 <div class="announcement" id="announce"></div>
 
 </div>
 
-<!-- JADWAL SHOLAT -->
 <div class="sholat-bar">
-  <div class="sholat-item">
-    <div class="nama">Subuh</div>
-    <div class="jam" id="subuh"></div>
-  </div>
-
-  <div class="sholat-item">
-    <div class="nama">Dzuhur</div>
-    <div class="jam" id="dzuhur"></div>
-  </div>
-
-  <div class="sholat-item">
-    <div class="nama">Ashar</div>
-    <div class="jam" id="ashar"></div>
-  </div>
-
-  <div class="sholat-item">
-    <div class="nama">Maghrib</div>
-    <div class="jam" id="maghrib"></div>
-  </div>
-
-  <div class="sholat-item">
-    <div class="nama">Isya</div>
-    <div class="jam" id="isya"></div>
-  </div>
+ <div class="sholat-item"><div class="nama">Subuh</div><div class="jam" id="subuh"></div></div>
+ <div class="sholat-item"><div class="nama">Dzuhur</div><div class="jam" id="dzuhur"></div></div>
+ <div class="sholat-item"><div class="nama">Ashar</div><div class="jam" id="ashar"></div></div>
+ <div class="sholat-item"><div class="nama">Maghrib</div><div class="jam" id="maghrib"></div></div>
+ <div class="sholat-item"><div class="nama">Isya</div><div class="jam" id="isya"></div></div>
 </div>
 
-<!-- RUNNING TEXT -->
 <div class="running-text">
 <marquee>Menuntut ilmu adalah jalan menuju surga | MA Darul Huffazh</marquee>
 </div>
 
 <script>
+let audioUnlocked=false;
+function aktifkanAudio(){
+ let a=document.getElementById("pengumuman1145");
+ a.play().then(()=>{
+   a.pause();
+   audioUnlocked=true;
+   document.getElementById("enableAudio").style.display="none";
+ });
+}
+
 // JAM
 function updateClock(){
  let n=new Date();
@@ -202,13 +172,12 @@ function updateClock(){
 
  let hari=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
  let bulan=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-
  date.innerHTML=hari[n.getDay()]+", "+n.getDate()+" "+bulan[n.getMonth()]+" "+n.getFullYear();
 }
 setInterval(updateClock,1000);
 updateClock();
 
-// JADWAL SHOLAT
+// SHOLAT
 let jadwal={
  subuh:"04:45",
  dzuhur:"12:10",
@@ -227,10 +196,8 @@ isya.innerHTML=jadwal.isya;
 let slides=[
 {arab:"قَالَ رَسُولُ اللَّهِ ﷺ : خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
  arti:"Sebaik-baik kalian adalah orang yang belajar Al-Qur’an dan mengajarkannya."},
-
 {arab:"إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
  arti:"Sesungguhnya setiap amal tergantung pada niatnya."},
-
 "Upacara hari Senin pukul 07.00 WIB",
 "Jaga kebersihan kelas dan lingkungan"
 ];
@@ -241,15 +208,12 @@ function gantiSlide(){
  if(typeof s==="string"){
    announce.innerHTML=s;
  }else{
-   announce.innerHTML=
-   "<div class='arab'>"+s.arab+"</div>"+
-   "<div class='arti'>"+s.arti+"</div>";
+   announce.innerHTML="<div class='arab'>"+s.arab+"</div><div class='arti'>"+s.arti+"</div>";
  }
- i++;
- if(i>=slides.length) i=0;
+ i++; if(i>=slides.length) i=0;
 }
 gantiSlide();
-setInterval(gantiSlide,60000);
+setInterval(gantiSlide,600000);
 
 // AUDIO 11:45
 let sudah=false;
@@ -257,21 +221,14 @@ function cek1145(){
  let n=new Date();
  let j=String(n.getHours()).padStart(2,'0');
  let m=String(n.getMinutes()).padStart(2,'0');
-
- if(j==="08" && m==="26" && !sudah){
+ if(j==="11" && m==="45" && !sudah && audioUnlocked){
    document.getElementById("pengumuman1145").play();
    sudah=true;
  }
- if(j==="08" && m==="28"){
-   sudah=false;
- }
+ if(j==="11" && m==="46"){sudah=false;}
 }
 setInterval(cek1145,1000);
 </script>
 
 </body>
 </html>
-
-
-
-
