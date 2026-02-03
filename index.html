@@ -42,9 +42,7 @@ body::before{
  gap:15px;
 }
 
-.logo-area img{
- width:80px;
-}
+.logo-area img{ width:80px; }
 
 .title{
  font-size:28px;
@@ -56,9 +54,7 @@ body::before{
  font-size:90px;
 }
 
-.date{
- font-size:22px;
-}
+.date{ font-size:22px; }
 
 .announcement{
  text-align:center;
@@ -96,9 +92,7 @@ body::before{
  font-size:22px;
 }
 
-.jam-sholat{
- font-size:26px;
-}
+.jam-sholat{ font-size:26px; }
 
 .running{
  position:fixed;
@@ -170,15 +164,18 @@ function aktifkanAudio(){
  });
 }
 
-// JAM BERKEDIP
-let titik=true;
+// JAM CERDAS
 function updateClock(){
  let n=new Date();
  let h=String(n.getHours()).padStart(2,'0');
  let m=String(n.getMinutes()).padStart(2,'0');
- let separator = titik ? ":" : " ";
- titik = !titik;
- clock.innerHTML = h + separator + m;
+ let s=String(n.getSeconds()).padStart(2,'0');
+
+ if(n.getSeconds()>=50){
+   clock.innerHTML=m+":"+s;
+ }else{
+   clock.innerHTML=h+":"+m;
+ }
 
  let hari=["Ahad","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
  let bulan=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
